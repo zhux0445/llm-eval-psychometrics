@@ -1,0 +1,68 @@
+site_name: llm-eval-psychometrics
+site_description: Psychometric diagnostics for LLM benchmarks and evaluation systems
+site_url: https://zhux0445.github.io/llm-eval-psychometrics
+repo_url: https://github.com/zhux0445/llm-eval-psychometrics
+repo_name: zhux0445/llm-eval-psychometrics
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+    - search.highlight
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+            heading_level: 3
+            docstring_style: google
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - API Reference:
+      - IRT: api/irt.md
+      - Bias Detection: api/bias.md
+      - Reliability: api/reliability.md
+      - Utilities: api/utils.md
+  - Examples:
+      - IRT Analysis Demo: examples/irt_demo.md
