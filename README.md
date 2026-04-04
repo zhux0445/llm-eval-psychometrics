@@ -153,6 +153,58 @@ fig = plot_tic(results, show_se=True)
 fig = plot_wright_map(results)
 ```
 
+### Demand Profiling — Multidimensional Benchmark Analysis
+
+Inspired by Zhou et al. (2026) "General scales unlock AI evaluation with explanatory and predictive power" (*Nature*, Vol 652), the `demand` module lets you annotate benchmark items across cognitive demand dimensions and answer: *what does this benchmark actually measure, and how well does each model handle each type of demand?*
+
+```python
+import numpy as np
+import pandas as pd
+from llm_eval_psychometrics.demand import DemandProfiler
+
+# Demand matrix: rows = items, columns = cognitive demand dimensions
+# Values are demand levels (e.g. 0–5)
+demand_matrix = pd.DataFrame({
+    "logical_reasoning":      [3, 5, 2, 4, 1],
+    "quantitative_reasoning": [4, 5, 1, 3, 2],
+    "verbal_comprehension":   [1, 0, 2, 1, 0],
+    "knowledge_formal_sciences": [2, 3, 0, 4, 1],
+    "atypicality":            [0, 1, 0, 2, 0],
+}, index=["item_0", "item_1", "item_2", "item_3", "item_4"])
+
+# Binary response matrix: rows = models, columns = items
+response_matrix = np.array([
+    [1, 1, 1, 0, 1],  # GPT-4o
+    [1, 0, 1, 0, 1],  # Claude-3
+    [0, 0, 1, 0, 1],  # LLaMA-3-70B
+])
+
+profiler = DemandProfiler(
+    demand_matrix=demand_matrix,
+    response_matrix=response_matrix,
+    model_ids=["GPT-4o", "Claude-3", "LLaMA-3-70B"],
+)
+
+# Demand profile: what does the benchmark measure?
+profile = profiler.demand_profile()
+print(profile.summary())
+
+# Construct validity: is the benchmark sensitive to target dimensions?
+validity = profiler.benchmark_validity(
+    benchmark_name="Math Benchmark",
+    target_dimensions=["logical_reasoning", "quantitative_reasoning"],
+)
+print(f"Sensitivity: {validity.overall_sensitivity:.2f}")
+print(f"Specificity: {validity.overall_specificity:.2f}")
+
+# Per-dimension ability profiles for each model
+abilities = profiler.ability_profile()
+print(abilities)
+
+# Predict instance-level performance from demand-ability gaps
+predicted = profiler.predict_performance(ability_profiles=abilities)
+```
+
 ## Modules
 
 | Module | Purpose | Key Classes |
@@ -160,6 +212,7 @@ fig = plot_wright_map(results)
 | `irt` | Benchmark item analysis via IRT | `IRTAnalyzer`, `IRTResults` |
 | `bias` | LLM judge bias detection & calibration | `BiasDetector`, `ScoreCalibrator` |
 | `reliability` | Inter-rater agreement & power analysis | `AgreementAnalyzer`, `PowerCalculator` |
+| `demand` | Multidimensional demand profiling & construct validity | `DemandProfiler`, `DemandProfile`, `BenchmarkValidity` |
 | `utils` | Data generation & loading utilities | `simulate_mmlu_like()` |
 
 ## Key Concepts
@@ -169,6 +222,7 @@ fig = plot_wright_map(results)
 LLM benchmarks are essentially standardized tests, and LLM-as-judge systems are rating scales — the same tools psychometricians have refined for decades apply directly:
 
 - **IRT** tells you which benchmark items actually differentiate between models (high discrimination) vs. items every model gets right/wrong (uninformative) or items that behave randomly (noisy).
+- **Demand profiling** (Zhou et al., 2026) goes beyond overall accuracy by annotating items across cognitive demand dimensions — quantifying what a benchmark truly measures, assessing construct validity, and estimating per-dimension ability profiles that explain *why* one model outperforms another.
 - **Bias detection** catches when your LLM judge systematically favors longer responses, responses in certain positions, or responses from its own model family.
 - **Reliability analysis** quantifies how much you can trust your evaluation results and tells you exactly how many samples you need.
 
