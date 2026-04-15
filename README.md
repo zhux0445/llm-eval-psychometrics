@@ -3,9 +3,11 @@
 [![PyPI version](https://img.shields.io/pypi/v/llm-eval-psychometrics.svg)](https://pypi.org/project/llm-eval-psychometrics/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-98%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-119%20passed-brightgreen.svg)]()
 
 **Psychometric diagnostics for LLM benchmarks and evaluation systems.**
+
+**[Live Demo & Showcase](https://zhux0445.github.io/llm-eval-psychometrics/)** | **[PyPI](https://pypi.org/project/llm-eval-psychometrics/)**
 
 Use Item Response Theory (IRT) and classical statistical methods to answer:
 
