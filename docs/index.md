@@ -45,6 +45,26 @@ print(report["quality"].value_counts())
 - **[Reliability](api/reliability.md)** — Cohen's Kappa, ICC, Krippendorff's alpha, bootstrap CI, power analysis
 - **[Utilities](api/utils.md)** — Synthetic data generators for testing
 
+## Methodological Note: Calibration Sample Size
+
+!!! warning "Item parameter estimates require an adequate model pool"
+
+    Classical IRT calibration assumes many examinees relative to items
+    (typically hundreds to thousands). When the toolkit is applied to a
+    small model pool — e.g., the 10–15 model demos in this documentation —
+    **item parameter estimates are provisional** and carry large standard
+    errors.
+
+    Large-scale, production-grade benchmark calibration would require
+    expanding to **~hundreds of models**, as in
+    [tinyBenchmarks (Polo et al., 2024)](https://arxiv.org/abs/2402.14992),
+    which calibrates item parameters on the Open LLM Leaderboard's several
+    hundred models before freezing those parameters for evaluating any new
+    model.
+
+    Interpret the demos in this documentation as proof-of-concept of the
+    analysis pipeline, not as precise population estimates of item quality.
+
 ## Next Steps
 
 - [Quickstart guide](quickstart.md) with copy-paste examples

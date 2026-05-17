@@ -2,6 +2,16 @@
 
 End-to-end example: analyze a simulated MMLU-like benchmark with IRT.
 
+!!! warning "Calibration sample size"
+
+    The demo below uses 15 simulated models against 100 items. **Item parameter
+    estimates are provisional given the limited model pool**; large-scale
+    calibration would require expanding to ~hundreds of models, as in
+    [tinyBenchmarks (Polo et al., 2024)](https://arxiv.org/abs/2402.14992).
+    Treat the discrimination, difficulty, and "poor item" classifications
+    here as illustrative of the analysis pipeline, not as precise population
+    estimates.
+
 ## Generate Data
 
 ```python
